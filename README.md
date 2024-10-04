@@ -1,10 +1,17 @@
-# Sreya
+# Auralab
 
-Sreya is a lightweight npm package for storing and managing data using JSON files as collections. It provides simple and efficient CRUD (Create, Read, Update, Delete) operations for working with collections stored locally on your file system.
+Auralab is an NPM package that provides a secure way to encrypt and decrypt objects using a secret string, leveraging the AES-256-CBC algorithm. It is useful for implementing encrypted login mechanisms similar to JWT (JSON Web Tokens).
+
+## Features
+
+- Encrypts JavaScript objects into a secure string.
+- Decrypts the secure string back into the original object.
+- Utilizes AES-256-CBC encryption for robust security.
+- Simple and easy to use with a clear API.
 
 ## Installation
 
-You can install Sreya via npm:
+You can install Auralab via npm:
 
 ```bash
 npm install auralab
@@ -12,84 +19,63 @@ npm install auralab
 
 ## Usage
 
-### Importing the Package
+Here is a basic example of how to use Auralab to encrypt and decrypt objects:
 
-```typescript
-import * as auralab from 'auralab';
+```javascript
+const { Auralab } = require("auralab");
+
+const aura = new Auralab("your_secret_string_here");
+console.log(aura);
+
+const obj = { username: 'Sajad', password: 'mypassword' };
+
+// Encrypt the object
+let hash = aura.hash(obj);
+console.log('Encrypted:', hash);
+
+// Decrypt the object
+let decoded = aura.decode(hash);
+console.log('Decrypted:', decoded);
+
+// Decode using a hash directly
+let hashForDecode = "your_hash_here";
+let decodedDirectly = aura.decode(hashForDecode);
+console.log('Decoded Directly:', decodedDirectly);
 ```
 
-### Connecting to a Database
+### Parameters
 
-Before using any CRUD operations, you need to connect to a database. This operation creates a directory for your database if it doesn't exist and retrieves a list of existing collections.
+- **Constructor**: `new Auralab(secret: string)`
+  - `secret`: A string used to generate the encryption key.
 
-```typescript
-await auralab.connect('mydatabase');
+### Methods
+
+- **`hash(obj: Object): string`**
+  - Encrypts the provided object and returns the encrypted string.
+
+- **`decode(hash: string): Object`**
+  - Decrypts the provided hash string and returns the original object.
+
+## Example
+
+Here is an example of how to encrypt and decrypt an object:
+
+```javascript
+const { Auralab } = require("auralab");
+
+const aura = new Auralab("cfdgbfcyehfvbr");
+
+const obj = { username: 'Sajad', password: 'mypassword' };
+
+// Encrypt the object
+let hash = aura.hash(obj);
+console.log('Encrypted:', hash);
+
+// Decrypt the object
+let decoded = aura.decode(hash);
+console.log('Decrypted:', decoded);
 ```
-
-### Creating a Collection
-
-You can create a new collection using the `create` function. If the collection already exists, this function will return a message indicating that the collection already exists.
-
-```typescript
-auralab.collection.create('mycollection');
-```
-
-### Finding Data in a Collection
-
-You can retrieve the data stored in a collection using the `find` function. This function returns an array of objects representing the data in the collection.
-
-```typescript
-const data = auralab.collection.find('mycollection');
-```
-
-### Inserting Data into a Collection
-
-To add new data to a collection, use the `insert` function. This function automatically generates a unique `_id` for the new data before insertion.
-
-```typescript
-const newData = { name: 'John', age: 30 };
-await auralab.collection.insert('mycollection', newData);
-```
-
-### Updating Data in a Collection
-
-You can update existing data in a collection using the `update` function. Provide a key-value pair to match the item to update and the new data.
-
-```typescript
-const newData = { name: 'Jane', age: 25 };
-await auralab.collection.update('mycollection', { key: 'name', value: 'John' }, newData);
-```
-
-### Removing Data from a Collection
-
-To remove an item from a collection based on a key-value pair, use the `remove` function.
-
-```typescript
-await auralab.collection.remove('mycollection', { key: 'name', value: 'John' });
-```
-
-### Destroying a Collection
-
-You can delete a collection and its associated JSON file using the `destroy` function.
-
-```typescript
-await auralab.collection.destroy('mycollection');
-```
-
-## Contributing
-
-Contributions are welcome! If you encounter any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request on GitHub.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-Special thanks to all contributors who have helped to improve and maintain this project.
-
----
-
-This documentation provides an overview of the main functionalities of Sreya. For more detailed usage instructions and examples, refer to the API documentation or explore the source code.
-
-If you have any questions or need further assistance, don't hesitate to reach out!
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details. 
