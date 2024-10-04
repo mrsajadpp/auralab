@@ -1,6 +1,6 @@
 {
   "name": "auralab",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Auralab is a secure, encrypted login and token generation package designed for authentication workflows. It provides AES encryption and customizable token expiration handling, offering an alternative to JWT. Ideal for Node.js and TypeScript applications.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
